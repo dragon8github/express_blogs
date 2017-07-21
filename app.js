@@ -35,11 +35,11 @@ app.use(session({
     })
 }))
 
-app.use('/', require('./routes/index'))
-app.use('/reg', require('./routes/reg'))
-app.use('/login', require('./routes/login'))
-app.use('/post',  require('./routes/post'))
-app.use('/logout',require('./routes/logout'))
+app.use('(/|/index|/home|/default)', require('./routes/index'))
+app.use('/reg',    require('./routes/reg'))
+app.use('/login',  require('./routes/login'))
+app.use('/post',   require('./routes/post'))
+app.use('/logout', require('./routes/logout'))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
