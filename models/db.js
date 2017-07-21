@@ -1,6 +1,11 @@
-var conf = require('../config').db
-var Db = require('mongodb').Db
-var Connection = require('mongodb').Connection
-var Server = require('mongodb').Server
+var MongoClient = require('mongodb').MongoClient;
 
-module.exports = new Db(conf.db, new Server(conf.host, 27010), {safe: true})
+let connect = function (cb) {
+    var url = 'mongodb://localhost:27017/myproject';
+    MongoClient.connect(url, function(err, db) {
+        if (err) return cb && cb(err)
+        cb && cb(null, db)
+    }); 
+}
+
+module.exports = connect
