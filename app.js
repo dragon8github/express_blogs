@@ -21,8 +21,7 @@ app.set('view engine', 'pug');
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public/images', 'fluidicon.png')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
@@ -36,16 +35,11 @@ app.use(session({
     })
 }))
 
-app.use('/reg', require('./routes/reg'));
-
-app.get('/',       function (req, res) { res.render( 'index', {title: "Home"    })})
-app.get('/index',  function (req, res) { res.render( 'index', {title: "Home"    })})
-app.get('/login',  function (req, res) { res.render( 'login', {title: "Login"   })})
-app.get('/post',   function (req, res) { res.render( 'post', {title: "Post"     })})
-app.get('/logout', function (req, res) { res.render( 'logout', {title: "Logout" })})
-app.post('/login',  function (req, res) { })
-app.post('/post',   function (req, res) { })
-app.post('/logout', function (req, res) { })
+app.use('/', require('./routes/index'))
+app.use('/reg', require('./routes/reg'))
+app.use('/login', require('./routes/login'))
+app.use('/post',  require('./routes/post'))
+app.use('/logout',require('./routes/logout'))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
