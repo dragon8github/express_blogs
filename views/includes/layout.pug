@@ -5,7 +5,14 @@ html(lang='en')
     body
         h1= title
         p Welcome to #{title}
-        block content
+        ul
+            li
+                a(href="/") home 
+            li
+                a(href="/login") login 
+            li
+                a(href="/reg") reg 
+        block content 
     footer
         block footer
             | © 2009-2017 CyLeeBlog.com 版权所有 ICP证：粤S-172RM    
