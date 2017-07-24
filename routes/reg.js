@@ -1,14 +1,14 @@
 var express = require('express');
 var router = express.Router();
-var crypto = require('crypto')
+var crypto = require('crypto');
 var User = require('../models/user');
 
 router.post('/', function (req, res) {
+
     var name = req.body.name;
     var pwd = req.body.pwd;
     var confirm = req.body.confirm;
     var email = req.body.email;
-
 
     if (pwd !== confirm) {
         req.flash('error', '两次输入的密码不一样');
@@ -24,23 +24,23 @@ router.post('/', function (req, res) {
         email: req.body.email
     })
 
-
-    User.get(name, function (err, user) {
+     User.get(name).then(user => {
         if (user) {
             req.flash('error', '用户已存在');
             return res.redirect('/reg');
         }
 
-        newUser.save(function (err, user) {
-            if (err) {
-                res.send(err)
-                req.flash('err', err);
-                return res.redirect('/reg');
-            }
+        newUser.save().then(user => {
             req.session.user = user;
             req.flash('success', '注册成功');
-            req.redirect('/');
+            res.redirect('/');
+        }).catch(err => {
+            res.send( err)
+            req.flash('err', err);
+            return res.redirect('/reg');
         })
+    }).catch(err => {
+        throw new Error(err);
     })
 })
 
