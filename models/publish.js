@@ -1,10 +1,10 @@
-var collections = require('./db').collections
+var connect = require('./db').connect
 
 class Publish {
     constructor (article) {
         this.name  = article.name
         this.title = article.title
-        this.body  = article.body
+        this.content  = article.content
     }
 
     save () {
@@ -17,7 +17,7 @@ class Publish {
             minute : date.getFullYear() + '-' + (date.getMonth() + 1) + (date.getDate()) + ' ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
         }
         return collections('article').then(docs => {
-            return docs.insert({name: this.name, title: this.title, body: this.body, time: _time}, {safe: true})
+            return docs.insert({name: this.name, title: this.title, content: this.content, time: _time}, {safe: true})
         }).catch(err => {
             throw new Error(err)
         }).finally(() => {
