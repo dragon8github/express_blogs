@@ -1,5 +1,5 @@
 var User = require('../models/user')
-var expect = require('expect.js');
+var expect = require('expect.js')
 
 
 describe('User测试', () => {

@@ -1,14 +1,12 @@
-let connect = require('../models/db');
-var expect = require('expect.js');
+let connect = require('../models/db').connect
+var expect = require('expect.js')
 
 describe('mongodb-promise单元测试', function () {
     it ('链接是否正常', done => {
        connect().then(db => {
-            this.db = db;
-            expect(db).to.be.an('object');
-       }).finally(() => {
-            this.db && this.db.close();
-            done();
+            db.close()
+            expect(db).to.be.an('object')
+            done()
        })
     })
 
@@ -20,11 +18,11 @@ describe('mongodb-promise单元测试', function () {
         }).then(result => {
             expect(result.result.n).to.equal(3)
             expect(result.ops.length).to.equal(3)
+            done()
         }).catch(err => {
-            throw new Error(err);
+            throw new Error(err)
         }).finally(() => {
-            this.db && this.db.close();
-            done();
+            this.db && this.db.close()
         })
     })
 
@@ -34,12 +32,12 @@ describe('mongodb-promise单元测试', function () {
         }) .then(docs => {
            return docs.updateOne({ a : 2 } , {$set: { b : 1 }})
         }).then(result => {
-            expect(result.result.n).to.be.equal(1);
+            expect(result.result.n).to.be.equal(1)
+            done()
         }).catch(err => {
-            throw new Error(err);
+            throw new Error(err)
         }).finally(() => {
-            this.db && this.db.close();
-            done();
+            this.db && this.db.close()
         })
     })
 
@@ -49,12 +47,12 @@ describe('mongodb-promise单元测试', function () {
         }) .then(docs => {
            return docs.deleteOne({ a : 3 })
         }).then(result => {
-            expect(result.result.n).to.be.equal(1);
+            expect(result.result.n).to.be.equal(1)
+            done()
         }).catch(err => {
-            throw new Error(err);
+            throw new Error(err)
         }).finally(() => {
-            this.db && this.db.close();
-            done();
+            this.db && this.db.close()
         })
     })
 })
