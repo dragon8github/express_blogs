@@ -14,10 +14,9 @@ describe('mongodb-promise单元测试', function () {
 
     it ('插入数据是否正常', done => {
         connect().then(db => {
-            this.db = db;
-            return db.collection('documents')
+            return (this.db = db).collection('documents')
         }) .then(docs => {
-           return docs.insertMany([{a : 1}, {a : 2}, {a : 3}]) 
+            return docs.insertMany([{a : 1}, {a : 2}, {a : 3}]) 
         }).then(result => {
             expect(result.result.n).to.equal(3)
             expect(result.ops.length).to.equal(3)
@@ -31,8 +30,7 @@ describe('mongodb-promise单元测试', function () {
 
     it ('更新数据是否成功?', done => {
         connect().then(db => {
-           this.db = db;
-           return db.collection('documents')
+           return (this.db = db).collection('documents')
         }) .then(docs => {
            return docs.updateOne({ a : 2 } , {$set: { b : 1 }})
         }).then(result => {
@@ -47,8 +45,7 @@ describe('mongodb-promise单元测试', function () {
 
     it ('删除数据是否成功?', done => {
        connect().then(db => {
-           this.db = db;
-           return db.collection('documents')
+          return (this.db = db).collection('documents')
         }) .then(docs => {
            return docs.deleteOne({ a : 3 })
         }).then(result => {
