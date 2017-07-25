@@ -1,0 +1,13 @@
+extends ./includes/layout.pug
+block content
+    form(method='post')
+        span
+            | 标题: 
+        div
+            input(type="text" name='title')
+        span 
+            | 正文 :
+        div
+            textarea(cols="100" row="20" name="content")
+        div
+            input(type="submit" value="Submit") 

@@ -33,10 +33,32 @@ app.use(session({
     })
 }))
 
+function checkLogin (req, res, next) {
+  if (!req.session.user) {
+    req.flash('error', '未登录！');
+    res.redirect('/login');
+  }
+  next();
+}
+
+function checkNotLogin (req, res, next) {
+  if (req.session.user) {
+    req.flash('error', '已登录');
+    res.redirect('back');
+  }
+  next();
+}
+
+app.use('/reg',     checkNotLogin);
+app.use('/login',   checkNotLogin);
+app.use('/publish', checkLogin);
+app.use('/logout',  checkLogin);
+
+
 app.use('(/|/index|/home|/default)', require('./routes/index'))
 app.use('/reg',    require('./routes/reg'))
 app.use('/login',  require('./routes/login'))
-app.use('/post',   require('./routes/post'))
+app.use('/publish',   require('./routes/publish'))
 app.use('/logout', require('./routes/logout'))
 
 // catch 404 and forward to error handler

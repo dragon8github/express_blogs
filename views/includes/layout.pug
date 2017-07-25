@@ -4,15 +4,29 @@ html(lang='en')
         title= title
     body
         h1= title
-        p Welcome to #{title}
+        if user
+            p Welcome to #{title}, < #{user.name} >
+        else 
+            p Welcome to #{title}
         ul
             li
                 a(href="/") home 
-            li
-                a(href="/login") login 
-            li
-                a(href="/reg") reg 
+            if user
+                li
+                    a(href="/publish") publish
+                li
+                    a(href="/logout") logout
+            else 
+                li
+                    a(href="/login") login 
+                li
+                    a(href="/reg") reg 
+        article
+            if success
+                div= success
+            if error
+                div= error
         block content 
     footer
         block footer
-            | © 2009-2017 CyLeeBlog.com 版权所有 ICP证：粤S-172RM    
+            | © 2009-2017 CyLeeBlog.com 版权所有 ICP证：粤S-172RM

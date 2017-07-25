@@ -47,7 +47,7 @@ router.post('/', function (req, res) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('reg', { title: 'reg' });
+    res.render('reg', {title: 'reg'});
 });
 
 
