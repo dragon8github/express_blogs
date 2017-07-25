@@ -25,12 +25,6 @@ let connect = () => {
     return MongoClient.connect(conf.url).then(db => db)
 }
 
-// 一个简单的文档查询串
-let collections = name => {
-    return connect().then(db => db.collection(name))
-}
-
 module.exports = {
-    connect,
-    collections
+    connect
 }
