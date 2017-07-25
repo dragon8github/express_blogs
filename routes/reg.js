@@ -1,14 +1,13 @@
-var express = require('express');
-var router = express.Router();
-var crypto = require('crypto');
-var User = require('../models/user');
+var express = require('express')
+var router = express.Router()
+var crypto = require('crypto')
+var User = require('../models/user')
 
 router.post('/', function (req, res) {
-
-    var name = req.body.name;
-    var pwd = req.body.pwd;
-    var confirm = req.body.confirm;
-    var email = req.body.email;
+    var name = req.body.name
+    var pwd = req.body.pwd
+    var confirm = req.body.confirm
+    var email = req.body.email
 
     if (pwd !== confirm) {
         req.flash('error', '两次输入的密码不一样');
@@ -16,31 +15,31 @@ router.post('/', function (req, res) {
     }
 
     var md5 = crypto.createHash('md5');
-    var pwd = md5.update(req.body.pwd).digest('hex');
+    pwd = md5.update(req.body.pwd).digest('hex');
 
-    var newUser = new User({
-        name: req.body.name,
-        pwd: pwd,
-        email: req.body.email
-    })
+    // 实例化User类对象
+    var newUser = new User({name, pwd, email})
 
-     User.get(name).then(user => {
-        if (user) {
-            req.flash('error', '用户已存在');
-            return res.redirect('/reg');
-        }
+    // 获取用户信息
+    User.get(name).then(user => {
+       // 用户存在，返回错误信息
+       if (user) {
+           req.flash('error', '用户已存在');
+           return res.redirect('/reg');
+       }
 
-        newUser.save().then(user => {
-            req.session.user = user;
-            req.flash('success', '注册成功');
-            res.redirect('/');
-        }).catch(err => {
-            res.send( err)
-            req.flash('err', err);
-            return res.redirect('/reg');
-        })
+       // 保存用户信息
+       newUser.save().then(user => {
+           req.session.user = user;
+           req.flash('success', '注册成功');
+           res.redirect('/');
+       })
+
+    // 捕捉get() 和 save()中所有的错误并且统一处理
     }).catch(err => {
-        throw new Error(err);
+        res.send(err)
+        req.flash('err', err);
+        return res.redirect('/reg');
     })
 })
 
