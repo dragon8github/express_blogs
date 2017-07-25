@@ -1,7 +1,6 @@
 var User = require('../models/user')
 var expect = require('expect.js')
 
-
 describe('User测试', () => {
     let user = new User({name: "Lee", pwd: "123456", email: "123@qq.com"})
 

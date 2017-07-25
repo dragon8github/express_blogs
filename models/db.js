@@ -20,19 +20,16 @@ Promise.prototype.finally = function (callback) {
     );
 };
 
-let connect = () => {
-    return MongoClient.connect(conf.url).then(db => db).catch(err => {
-        throw new Error(err)
-    })
-}
-
-let collections = name => {
-    return connect().then(db => {return db.collection(name) }).catch(err => {
-        throw new Error(err)
-    })
-}
-
 // 一个简单的链接串
+let connect = () => {
+    return MongoClient.connect(conf.url).then(db => db)
+}
+
+// 一个简单的文档查询串
+let collections = name => {
+    return connect().then(db => db.collection(name))
+}
+
 module.exports = {
     connect,
     collections
