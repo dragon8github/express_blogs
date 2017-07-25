@@ -6,7 +6,7 @@ describe('mongodb-promise单元测试', function () {
        connect().then(db => {
             this.db = db;
             expect(db).to.be.an('object');
-       }).finally(cb => {
+       }).finally(() => {
             this.db && this.db.close();
             done();
        })
@@ -22,7 +22,7 @@ describe('mongodb-promise单元测试', function () {
             expect(result.ops.length).to.equal(3)
         }).catch(err => {
             throw new Error(err);
-        }).finally(cb => {
+        }).finally(() => {
             this.db && this.db.close();
             done();
         })
@@ -37,7 +37,7 @@ describe('mongodb-promise单元测试', function () {
             expect(result.result.n).to.be.equal(1);
         }).catch(err => {
             throw new Error(err);
-        }).finally(cb => {
+        }).finally(() => {
             this.db && this.db.close();
             done();
         })
@@ -52,7 +52,7 @@ describe('mongodb-promise单元测试', function () {
             expect(result.result.n).to.be.equal(1);
         }).catch(err => {
             throw new Error(err);
-        }).finally(cb => {
+        }).finally(() => {
             this.db && this.db.close();
             done();
         })
