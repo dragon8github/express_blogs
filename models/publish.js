@@ -1,4 +1,4 @@
-var connect = require('./db')
+var collections = require('./db').collections
 
 class Publish {
     constructor (article) {
@@ -16,9 +16,7 @@ class Publish {
             day    : date.getFullYear() + '-' + (date.getMonth() + 1) + (date.getDate()),
             minute : date.getFullYear() + '-' + (date.getMonth() + 1) + (date.getDate()) + ' ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
         }
-        return connect().then(db => {
-            return (this.db = db).collection('article')
-        }).then(docs => {
+        return collections('article').then(docs => {
             return docs.insert({name: this.name, title: this.title, body: this.body, time: _time}, {safe: true})
         }).catch(err => {
             throw new Error(err)
@@ -28,9 +26,7 @@ class Publish {
     }
 
     static get (name) {
-        return connect().then(db => {
-            return (this.db = db).collection('article')
-         }).then(docs => {
+        return collections('article').then(docs => {
             return docs.find({name: name}).sort({time: -1}).toArray()
          }).catch(err => {
             throw new Error(err)
