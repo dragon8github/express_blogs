@@ -1,0 +1,6 @@
+extends ./includes/layout.pug
+block content
+    ol
+        - for (var x = 0; x < list.length; x++)
+            li
+                a(href = "/article/" + list[x]._id, title = list[x].title)= list[x].title

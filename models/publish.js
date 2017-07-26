@@ -32,11 +32,23 @@ class Publish {
             return (this.db = db).collection('article')
         }).then(docs => {
             return docs.find({name: name}).sort({time: -1}).toArray()
-         }).catch(err => {
+        }).catch(err => {
             throw new Error(err)
-         }).finally(cb => {
+        }).finally(cb => {
             this.db && this.db.close()
-         })
+        })
+    }
+
+    static getOne (id) {
+        return connect().then(db => {
+            return (this.db = db).collection('article')
+        }).then(docs => {
+            return docs.findOne({_id: id})
+        }).catch(err => {
+            throw new Error(err)
+        }).finally(cb => {
+            this.db && this.db.close()
+        })
     }
 }
 

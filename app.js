@@ -4,17 +4,13 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-// https://github.com/jaredhanson/connect-flash
 const flash = require('connect-flash');
-// https://github.com/expressjs/session
 const session = require('express-session');
-// https://github.com/jdesboeufs/connect-mongo
 const MongoStore = require('connect-mongo')(session);
 const conf = require('./config').db;
-
 const app = express();
 
-// view engine setup
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(favicon(path.join(__dirname, 'public/images', 'fluidicon.png')));
@@ -26,10 +22,12 @@ app.use(flash());
 app.use(session({
     secret: conf.cookieSecret,
     key: conf.db,
-    cookie: {maxAge: 1000 * 60 * 60 * 24 * 30}, // 30 day
+    // 30 day
+    cookie: {maxAge: 1000 * 60 * 60 * 24 * 30}, 
     store: new MongoStore({
         url: conf.url,
-        ttl: 14 * 24 * 60 * 60 // 14 days. Default
+        // 14 days. Default
+        ttl: 14 * 24 * 60 * 60 
     })
 }))
 
@@ -53,13 +51,15 @@ app.use('/reg',     checkNotLogin);
 app.use('/login',   checkNotLogin);
 app.use('/publish', checkLogin);
 app.use('/logout',  checkLogin);
-
+app.use('/list',    checkLogin);
 
 app.use('(/|/index|/home|/default)', require('./routes/index'))
 app.use('/reg',    require('./routes/reg'))
 app.use('/login',  require('./routes/login'))
 app.use('/publish',   require('./routes/publish'))
 app.use('/logout', require('./routes/logout'))
+app.use('/list', require('./routes/list'))
+app.use('/article', require('./routes/article'))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -3,7 +3,7 @@ var router = express.Router();
 var Publish = require('../models/publish')
 
 router.post('/', function (req, res, next) {
-    var name = req.body.name
+    var name =  req.session.user
     var title = req.body.title
     var body = req.body.body
 
@@ -14,12 +14,17 @@ router.post('/', function (req, res, next) {
     publish.save().then(article => {
         req.session.article = article;
         req.flash('success', '发布成功');
-        res.redirect('/');
+        res.redirect('/list');
     })
 })
 
 router.get('/', function (req, res, next) {
-    res.render('publish', { title: "publish" })
+    res.render('publish', { 
+       title: "publish",
+       user: req.session.user,
+       success: req.flash('success').toString(),
+       error: req.flash('error').toString()  
+    })
 })
 
 module.exports = router;
