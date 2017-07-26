@@ -1,6 +1,6 @@
 extends ./includes/layout.pug
 block content
-    h1
-        | 123
-    article
-        | content
+    h1= article.title
+    h2= '发布时间：' + article.time.minute
+    article= article.content
+        

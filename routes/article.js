@@ -4,17 +4,17 @@ var Publish = require('../models/publish')
 
 router.get('/:id', function (req, res, next) {
     Publish.getOne(req.params.id).then(article => {
-        res.send(article)
+        res.render('article', { 
+           title: "article",
+           user: req.session.user,
+           success: req.flash('success').toString(),
+           error: req.flash('error').toString(),
+           article:article
+        })
+    }).catch(err=> {
+        res.send('err' + JSON.stringify(err))
     })
-    // Publish.get(req.session.user).then(article => {
-    //     res.render('list', { 
-    //        title: "list",
-    //        user: req.session.user,
-    //        success: req.flash('success').toString(),
-    //        error: req.flash('error').toString(),
-    //        list:article
-    //     })
-    // })
+    
 })
 
 module.exports = router;

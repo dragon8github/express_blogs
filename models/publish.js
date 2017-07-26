@@ -1,4 +1,6 @@
 var connect = require('./db').connect
+var ObjectID = require('mongodb').ObjectID;
+
 
 class Publish {
     constructor (article) {
@@ -43,7 +45,7 @@ class Publish {
         return connect().then(db => {
             return (this.db = db).collection('article')
         }).then(docs => {
-            return docs.findOne({_id: id})
+            return docs.findOne({_id: ObjectID(id)})
         }).catch(err => {
             throw new Error(err)
         }).finally(cb => {

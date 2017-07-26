@@ -5,10 +5,10 @@ var Publish = require('../models/publish')
 router.post('/', function (req, res, next) {
     var name =  req.session.user
     var title = req.body.title
-    var body = req.body.body
+    var content = req.body.content
 
     // 实例化User类对象
-    var publish = new Publish({name, title, body})
+    var publish = new Publish({name, title, content})
 
     // 保存文章信息
     publish.save().then(article => {

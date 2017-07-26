@@ -3,7 +3,7 @@ var expect = require('expect.js')
 
 describe('User测试', () => {
     let publish = new Publish({name: "Lee", title: "title", content: "content", _id: null})
-
+    
     it ('测试save()函数能否成功添加文章', done => {
         publish.save().then(article => {
             publish._id = article.ops[0]._id
