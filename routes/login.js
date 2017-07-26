@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 var crypto = require('crypto')
 var User = require('../models/user')
+const passport = require('passport')
 
 router.post('/', function (req, res, next) {
     var name = req.body.name
@@ -38,5 +39,21 @@ router.get('/', function(req, res, next) {
        error: req.flash('error').toString() 
     })
 })
+
+router.get('/github', passport.authenticate('github', {session: false}))
+
+router.get('/github/callback',  passport.authenticate('github', {
+      session: false,
+      failureRedirect: '/login',
+      successFlash: '登录成功?'
+    }),
+    function (req, res, next) {
+      req.session.user = {
+        name: req.user.username,
+        head: "http://gravatar.com/avatar/" + req.user._json.gravatar_id + "?s=48"
+      };
+      res.redirect('/')
+    }
+)
 
 module.exports = router
